@@ -46,9 +46,11 @@ export async function allProducts(req,res)
 
 export async function displayCart(req,res)
 {
+    console.log(req.query);
+    const filter={user_id:req.query.user_id};
     console.log("Getting all Cart products");
     try{
-        const data=await Cart.find();
+        const data=await Cart.find(filter);
         console.log(data);
         res.status(200).json(data);
     }
@@ -94,5 +96,46 @@ export async function deleteCart(req,res)
     {
         console.log(error);
         res.status(400).send("Delete unsuccessfull");
+    }
+}
+
+export async function allProductsSortLow(req,res)
+{
+    console.log("Getting all products");
+    try{
+        const data=await Product.find().sort({productprice:1});
+        console.log(data);
+        res.status(200).json(data);
+    }
+    catch(error)
+    {
+        res.status(404).send("error");
+    }
+}
+
+export async function allProductsSortHigh(req,res)
+{
+    console.log("Getting all products");
+    try{
+        const data=await Product.find().sort({productprice:-1});
+        console.log(data);
+        res.status(200).json(data);
+    }
+    catch(error)
+    {
+        res.status(404).send("error");
+    }
+}
+
+export async function allProductsSearch(req, res) {
+    console.log("Getting all products");
+    const data = req.query.search;
+    console.log(data);
+    try {
+        const products = await Product.find({ productName: new RegExp(data, 'i') });
+        console.log(products);
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(404).send("error");
     }
 }
