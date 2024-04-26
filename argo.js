@@ -29,7 +29,7 @@ async function connect()
     console.log("DB Connected");
 } 
 
-app.listen("https://resplendent-marigold-b9eee4.netlify.app/",()=>
+app.listen(3001,()=>
 {
     connect();
     console.log("Server Started");
